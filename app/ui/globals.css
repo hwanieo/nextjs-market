@@ -4,3 +4,7 @@
 
 @layer utilities {
 }
+
+* {
+  box-sizing: border-box;
+}

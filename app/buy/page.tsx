@@ -1,4 +1,3 @@
-import Card from "@/app/ui/buy/card";
 import Cards from "@/app/ui/buy/cards";
 
 export default function Page() {
