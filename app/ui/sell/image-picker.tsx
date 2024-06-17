@@ -1,10 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 
 export default function ImagePicker() {
+  const pickImageRef = useRef<HTMLInputElement>(null);
   const [pickedImage, setPickedImage] = useState<string | null>(null);
+
+  function handleImageClick() {
+    pickImageRef.current?.click();
+  }
 
   function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
     const files = event.target.files;
@@ -27,10 +32,19 @@ export default function ImagePicker() {
 
   return (
     <div className="flex-1 rounded-md flex flex-col gap-4">
-      <div className="rounded bg-yellow-200 w-[10rem] h-[10rem] flex justify-center items-center text-center relative">
-        {!pickedImage && <p>No image picked yet.</p>}
+      <div
+        onClick={handleImageClick}
+        className="rounded border cursor-pointer w-[10rem] h-[10rem] flex justify-center items-center text-center relative overflow-hidden"
+      >
+        {!pickedImage && <p className="text-sm">No image picked yet.</p>}
         {pickedImage && (
-          <Image src={pickedImage} fill objectFit="cover" alt="Image" />
+          <Image
+            src={pickedImage}
+            fill
+            objectFit="cover"
+            className="shadow-md"
+            alt="Image"
+          />
         )}
       </div>
       <div>
@@ -44,6 +58,7 @@ export default function ImagePicker() {
           type="file"
           id="image"
           accept="image/png, image/jpeg"
+          ref={pickImageRef}
           onChange={handleImageChange}
           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           required
